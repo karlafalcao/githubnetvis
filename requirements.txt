@@ -1,2 +1,2 @@
 pandas==0.22.0
-github3.py version 0.9.6
+github3.py
