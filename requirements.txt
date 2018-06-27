@@ -1,2 +1,4 @@
 pandas==0.22.0
-github3.py
+github3.py==0.9.6
+gensim
+numpy
