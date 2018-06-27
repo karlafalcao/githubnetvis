@@ -34,6 +34,8 @@ d3.csv("../data/recife/edges.csv", function(edges){
 
 
 function buildGraph(edges){
+	console.log(edges);
+	if (edges === null) return;
 	var nodes = {};
 	var links = edges;
 
@@ -50,40 +52,56 @@ function buildGraph(edges){
 			(nodes[link.target] = {user: link.target });
 	});
 
-console.log(links[1]);
-	var link = svg.append("g")
-		.attr("class", "link")
-		.selectAll(".link")
-		.data(links)
-		.enter()
-		.append("line")
-		.style("stroke", "#c5a688")
-		.style("stroke-width", "2px")
-		.style("stroke-opacity", 0.7);
+  console.log(links[1]);
 
-	var node = svg.selectAll(".node")
+  var link = svg
+    .append("g")
+    .attr("class", "link")
+    .selectAll(".link")
+    .data(links)
+    .enter()
+    .append("line")
+    .style("stroke", "#c5a688")
+    .style("stroke-width", "2px")
+    .style("stroke-opacity", 0.7);
+
+	var node = svg
+    .append("g")
+    .selectAll(".node")
 		.data(d3.values(nodes))
 		.enter()
-		.append("g")
+    .append("g")
 		.attr("class", "node")
-		.append("circle")
+
+  var circle = node.append("circle")
 		.style("fill", "#5ac5d1")
-		.style("stroke", "white")	
-		//.attr("stroke-width", "1.5px")	
-		.attr("r", 
+		.style("stroke", "white")
+		//.attr("stroke-width", "1.5px")
+		.attr("r",
 			d=>cScale(3.14*links.filter(e=>{  // boa proporcao entre as areas
 			return e.source.user == d.user || e.target.user == d.user}).length
-		));  
-	
-	// eventos 
-	node.attr("cursor", "zoom-in")
+		));
+
+	// eventos
+  circle.attr("cursor", "zoom-in")
 		.on("click", clicked)  // contem zoom behavior
 		.call(d3.drag()
 			.on("start", ondragstart)
 			.on("drag", ondrag)
 			.on("end", ondragend));
 
-	var force_dirGraph = d3.forceSimulation()			
+
+  var labels = node
+    .append("g")
+    .append("text")
+    .attr("font-family", "serif")
+    .attr("font-size", 10)
+    .attr("dx", d=>d[0])
+    .attr("dy", d=>d[1])
+    .text(d=>d.user)
+    .attr("fill","red");
+
+  var force_dirGraph = d3.forceSimulation()
 		.force("link", d3.forceLink(links)) //.id(function(d) { return d.id; }))
 		.force("charge", d3.forceManyBody())			
 		.force("center", d3.forceCenter(drawWidth/2, drawHeight/2))
@@ -91,22 +109,12 @@ console.log(links[1]);
 		.force("collision", d3.forceCollide().radius(//25));
 			d=>(1.5*links.filter(e=>{
 			return e.source.user == d.user || e.target.user == d.user}).length)) );
-	    
-	force_dirGraph.nodes(d3.values(nodes))			
-		.on("tick", ticked);	
 
-	// var labels = node.append("g")
- // 	  .append("text")
- //    .attr("font-family", "serif")
- //    .attr("font-size", 10)
- //    .attr("dx", )
- //    .attr("dy", )
- //    .text(function(d) { return d.user; }); 
 
-	labels = d3.select("svg").selectAll("text").data(nodes).enter().append("text")
-	  .attr("x",d=>d[0]).attr("y",d=>d[1]).text(d=>d.user).attr("fill","red");
+  force_dirGraph.nodes(d3.values(nodes))
+    .on("tick", ticked);
 
-	function clicked(d) {
+  function clicked(d) {
 		var x;
 		var y;
 		var level;
@@ -151,16 +159,17 @@ console.log(links[1]);
 		  d.fy = d.y;
 	}	
 
-	function ticked() {	
-	node.attr("cx", function(d) { return d.x; })
-		.attr("cy", function(d) { return d.y; });
-			
-	link.attr("x1", function(d) { return d.source.x; })
-		.attr("y1", function(d) { return d.source.y; })
-		.attr("x2", function(d) { return d.target.x; })
-		.attr("y2", function(d) { return d.target.y; });
+	function ticked() {
 
-	labels.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    link.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+    circle.attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; });
+
+    labels.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	}
 
 // var xScale = d3.scaleLinear().domain([]).range([0, drawWidth]);
