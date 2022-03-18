@@ -1,3 +1,3 @@
-# github-networks
+# githubnets
 
-* Install nodejs and npm and run: `npm install` then `npm run start`
+* Data analysis and Web visualization of the Complex Networks of Github Influencers.
