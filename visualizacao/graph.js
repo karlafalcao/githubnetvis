@@ -28,7 +28,7 @@ var svg = d3.select("body")
   );
 
 
-d3.csv("../data/recife/edges.csv", function(edges){
+d3.csv("../data/edges.csv", function(edges){
   buildGraph(edges);
 });
 
@@ -46,10 +46,10 @@ function buildGraph(edges){
 	var zoomLevel = 2;
 
 	links.forEach(function(link) {	
-		link.source = nodes[link.source] ||
-			(nodes[link.source] = {user: link.source });			
-		link.target = nodes[link.target] ||
-			(nodes[link.target] = {user: link.target });
+		link.Source = nodes[link.Source] ||
+			(nodes[link.Source] = {user: link.Source });			
+		link.Target = nodes[link.Target] ||
+			(nodes[link.Target] = {user: link.Target });
 	});
 
   console.log(links[1]);
@@ -79,7 +79,7 @@ function buildGraph(edges){
 		//.attr("stroke-width", "1.5px")
 		.attr("r",
 			d=>cScale(3.14*links.filter(e=>{  // boa proporcao entre as areas
-			return e.source.user == d.user || e.target.user == d.user}).length
+			return e.Source.user == d.user || e.Target.user == d.user}).length
 		));
 
 	// eventos
@@ -103,12 +103,12 @@ function buildGraph(edges){
 
   var force_dirGraph = d3.forceSimulation()
 		.force("link", d3.forceLink(links)) //.id(function(d) { return d.id; }))
-		.force("charge", d3.forceManyBody())			
+		.force("charge", d3.forceManyBody())
 		.force("center", d3.forceCenter(drawWidth/2, drawHeight/2))
 		//.force("radial",d3.forceRadial().radius(1.5))  // oculta caminhos ate nos de grau baixo, mas destaca clusters
 		.force("collision", d3.forceCollide().radius(//25));
 			d=>(1.5*links.filter(e=>{
-			return e.source.user == d.user || e.target.user == d.user}).length)) );
+			return e.Source.user == d.user || e.Target.user == d.user}).length)) );
 
 
   force_dirGraph.nodes(d3.values(nodes))
@@ -120,11 +120,11 @@ function buildGraph(edges){
 		var level;
 
 		if(!d3.event.ctrlKey){
-			if (zoomCentered !== d) {		
-				x = d.x; 
-				y = d.y; 
+			if (zoomCentered !== d) {
+				x = d.x;
+				y = d.y;
 				level = zoomLevel;
-				zoomCentered = d;		
+				zoomCentered = d;
 			} else {
 				x = width/2;
 				y = height/2;
@@ -138,7 +138,7 @@ function buildGraph(edges){
 		} else {  // o usuario libera o nó que fixou
 		    d.fx = null;
 		    d.fy = null;
-		}			
+		}
 	}
 
 	function ondragstart(d) {
@@ -147,9 +147,9 @@ function buildGraph(edges){
 		  d.fy = d.y;
 	}
 
-	function ondrag(d) {		
+	function ondrag(d) {
 		d.fx = d3.event.x;
-		d.fy = d3.event.y;	  
+		d.fy = d3.event.y;
 	}
 
 	// o usuario fixa a posicao do nó
@@ -157,14 +157,14 @@ function buildGraph(edges){
 		if (!d3.event.active) force_dirGraph.alphaTarget(0);
 		  d.fx = d.x;
 		  d.fy = d.y;
-	}	
+	}
 
 	function ticked() {
 
-    link.attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
+    link.attr("x1", function(d) { return d.Source.x; })
+      .attr("y1", function(d) { return d.Source.y; })
+      .attr("x2", function(d) { return d.Target.x; })
+      .attr("y2", function(d) { return d.Target.y; });
 
     circle.attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
@@ -175,14 +175,14 @@ function buildGraph(edges){
 // var xScale = d3.scaleLinear().domain([]).range([0, drawWidth]);
 // var yScale = d3.scaleLinear().domain([]).range([0, drawHeight]);
 
-// function ticked() {	
+// function ticked() {
 // 	node.attr("cx", function(d) { return xScale(d.x); })
 // 		.attr("cy", function(d) { return yScale(d.y); });
-			
-// 	link.attr("x1", function(d) { return xScale(d.source.x); })
-// 		.attr("y1", function(d) { return yScale(d.source.y); })
-// 		.attr("x2", function(d) { return xScale(d.target.x); })
-// 		.attr("y2", function(d) { return yScale(d.target.y); });
+
+// 	link.attr("x1", function(d) { return xScale(d.Source.x); })
+// 		.attr("y1", function(d) { return yScale(d.Source.y); })
+// 		.attr("x2", function(d) { return xScale(d.Target.x); })
+// 		.attr("y2", function(d) { return yScale(d.Target.y); });
 // 	}
 		
 } // end
