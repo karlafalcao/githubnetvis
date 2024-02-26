@@ -60,7 +60,7 @@ function buildPainel(){
 
   svgGroup.append("image")
     .attr("class", "painel")
-    .attr("xlink:href", "github_force.png")
+    .attr("xlink:href", "img/github_force.png")
     .attr("transform", "translate(" + margin.left + "," + (ht_height + margin.top)  + ")")
     // .attr("x", "-14px")
     // .attr("y", "-8px")
