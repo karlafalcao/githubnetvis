@@ -6,4 +6,3 @@ que o usuário tem experiência e os repositórios próprios.
 
 * Algorithm: force directed graph.
  
-[Demo page](https://)
