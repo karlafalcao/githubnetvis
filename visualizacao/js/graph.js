@@ -33,8 +33,8 @@ var border = svg.append("rect")
 
 
 // dataset
-d3.csv("data/edges.csv", function(error, edges){
-  d3.csv("data/gephi/node_data.csv", function(error, csv){
+d3.csv("/data/recife/edges.csv", function(error, edges){
+  d3.csv("/data/recife/node_data.csv", function(error, csv){
   	if(error) { console.log(error); }
 		var data_cf = crossfilter(csv);
     buildPainel();
@@ -169,7 +169,7 @@ function buildGraph(edges,data_cf){
         graph_update();
         d3.select(this).select("circle").style("fill", "#74452d");
         
-        heatmap(node_data[i]);
+        heatmap & heatmap(node_data[i]);
         console.log("Dados do usuario:", node_data[i]);
  				
       } else {
