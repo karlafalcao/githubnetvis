@@ -13,7 +13,7 @@ algumas propriedades dos nós dessas arestas, como In-Degree
 (número de seguidores que também foi calculado na scraping dos dados),  
 Modularity Class e Eigen Centrality. 
 Então exportou-se os nós, juntamente com essas propriedades,
-para o arquivo 'nodes.csv', que se encontra em '/gephi'.
+para o arquivo 'node_metrics.csv' ou 'node_data.csv', que se encontra em 'recife/'.
 
 # requirements
 
