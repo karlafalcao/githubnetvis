@@ -30,7 +30,7 @@ function buildPainel(){
     .attr("width", ht_width)
     .attr("height", ht_height + 25)
     .append("xhtml:div")
-    .html("<h3 style='text-align: center;'>GithubComplex Network of Developers by city" +
+    .html("<h3 style='text-align: center;'>Github Followers Complex Network of Developers by city" +
       `
       </br>
 
