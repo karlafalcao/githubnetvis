@@ -35,11 +35,13 @@ var border = svg.append("rect")
 // dataset
 d3.csv("/data/recife/edges.csv", function(error, edges){
   d3.csv("/data/recife/node_data.csv", function(error, csv){
-  	if(error) { console.log(error); }
-		var data_cf = crossfilter(csv);
-    buildPainel();
-		buildGraph(edges, data_cf);
-  });  
+      buildPainel();
+  	if(error) { console.log(error); } else {
+      console.log("edges:", csv);
+		  var data_cf = crossfilter(csv);
+		  buildGraph(edges, data_cf);
+    }
+  });
 });
 
 
