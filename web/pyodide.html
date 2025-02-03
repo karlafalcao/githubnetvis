@@ -1,0 +1,76 @@
+<head>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.27.0/full/pyodide.js"></script>
+
+  <style>
+    #container {
+      font-family: Quicksand, arial, sans-serif;
+      box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.05),
+        0 0px 40px rgba(0, 0, 0, 0.08);
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #value {
+      font-weight: bold;
+      font-size: 5em;
+      padding-left: 10px;
+      border-right: solid 1px;
+    }
+
+    #label {
+      padding: 10px;
+    }
+  </style>
+  q
+</head>
+
+<body>
+  <div id="container">
+    <span id="value">0</span>
+    <span id="label">count data</span>
+  </div>
+  Pyodide test page <br />
+  Open your browser console to see Pyodide output
+  <script type="text/javascript">
+    async function main() {
+      let pyodide = await loadPyodide();
+      console.log(
+        "Version is:",
+        pyodide.runPython(`
+            import sys
+            sys.version
+        `),
+      );
+      pyodide.runPython("print(1 + 2)");
+      const data = JSON.stringify([
+        {
+          name: "Ruben",
+          surname: "Sanchez",
+        },
+        {
+          name: "Michael",
+          surname: "Johnson",
+        },
+        {
+          name: "John",
+          surname: "Smith",
+        },
+      ]);
+      pyodide.loadPackage(["pandas"]).then(() => {
+        pyodide.runPython(`
+            import pandas as pd
+            import json
+            df = pd.DataFrame(${data})
+            count = df["name"].count()
+           `);
+        document.getElementById("value").textContent =
+          pyodide.runPython("count");
+        pyodide.runPython("print(count)");
+      });
+    }
+    main();
+  </script>
+</body>

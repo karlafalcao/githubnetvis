@@ -1,0 +1,34 @@
+{
+  "name": "githubnetvis",
+  "version": "1.0.0",
+  "description": "* Data analysis and Web visualization of the Github Developers Network.",
+  "homepage": "https://github.com/karlafalcao/githubnetvis#readme",
+  "bugs": {
+    "url": "https://github.com/karlafalcao/githubnetvis/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karlafalcao/githubnetvis.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint web/ --fix",
+    "stylelint": "npx stylelint '**/*.css' --fix",
+    "format-check": "npx prettier web/ --check",
+    "format": "npx prettier web/ --write",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "prettier": "3.4.2",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^37.0.0"
+  }
+}

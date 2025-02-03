@@ -1,0 +1,17 @@
+header {
+  text-align: center;
+  align-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-family: cursive;
+  font-size: 30px;
+  color: #74452d;
+  text-align: center;
+}
+
+foreignObject.painel {
+  font-family: cursive;
+  font-size: 14px;
+}
